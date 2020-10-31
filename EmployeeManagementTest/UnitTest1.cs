@@ -1,7 +1,9 @@
 using EmployeeManagement;
+using EmployeeManagement.Model;
 using EmployeeManagement.Model.SalaryModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 
 namespace EmployeeManagementTest
@@ -39,10 +41,19 @@ namespace EmployeeManagementTest
             DateTime EndDate = FormateDateTime("2019-02-05");
 
             //Act
-            int EmployeeCount = employee.GetAllEmployeeAsPerDate(InitialDate, EndDate);
+            List<employeeDisplayModel> list = employee.GetAllEmployeeAsPerDate(InitialDate, EndDate);
 
-            //Assert
-            Assert.AreEqual(4, EmployeeCount);
+            foreach(employeeDisplayModel model in list)
+            {
+                if(InitialDate <= model.HireDate && EndDate >= model.HireDate)
+                {
+                    Assert.IsTrue(true);
+                }
+                else
+                {
+                    Assert.IsTrue(false);
+                }
+            }
         }
 
         public static DateTime FormateDateTime(string date)

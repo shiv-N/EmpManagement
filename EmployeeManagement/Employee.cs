@@ -170,9 +170,9 @@ namespace EmployeeManagement
             }
         }
 
-        public int GetAllEmployeeAsPerDate(DateTime initialDate,DateTime EndDate)
+        public List<employeeDisplayModel> GetAllEmployeeAsPerDate(DateTime initialDate,DateTime EndDate)
         {
-            int EmployeeCount = 0;
+            List<employeeDisplayModel> list = new List<employeeDisplayModel>();
             try
             {
                 using (this.connection)
@@ -206,7 +206,7 @@ namespace EmployeeManagement
                             Console.WriteLine("{0},{1},{2},{3},{4},{5},{6}", displayModel.EmployeeId, displayModel.EmployeeName, displayModel.JobDiscription,
                                 displayModel.Email, displayModel.departmentName, displayModel.HireDate, displayModel.Location);
                             Console.WriteLine("\n");
-                            EmployeeCount++;
+                            list.Add(displayModel);
                         }
                     }
                     else
@@ -227,7 +227,7 @@ namespace EmployeeManagement
             {
                 this.connection.Close();
             }
-            return EmployeeCount;
+            return list;
         }
 
         /// <summary>
