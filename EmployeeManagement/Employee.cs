@@ -170,6 +170,66 @@ namespace EmployeeManagement
             }
         }
 
+        public int GetAllEmployeeAsPerDate(DateTime initialDate,DateTime EndDate)
+        {
+            int EmployeeCount = 0;
+            try
+            {
+                using (this.connection)
+                {
+                    employeeDisplayModel displayModel = new employeeDisplayModel();
+                    //define the SqlCommand object
+                    SqlCommand cmd = new SqlCommand("spGetAllEmployeeAsPerDate", this.connection);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@intialDate", initialDate);
+                    cmd.Parameters.AddWithValue("@endDate", EndDate);
+                    this.connection.Open();
+
+                    SqlDataReader dr = cmd.ExecuteReader();
+
+                    //check if there are records
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            displayModel.EmployeeId = Convert.ToInt32(dr["EmpId"]);
+                            displayModel.EmployeeName = dr["ENAME"].ToString();
+                            displayModel.JobDiscription = dr["JOB"].ToString();
+                            displayModel.Email = dr["EMAIL"].ToString();
+                            displayModel.BirthDate = Convert.ToDateTime(dr["BIRTHdATE"]);
+                            displayModel.HireDate = Convert.ToDateTime(dr["HIREDATE"]);
+                            displayModel.DepartmentId = Convert.ToInt32(dr["DEPTNo"]);
+                            displayModel.departmentName = dr["DNAME"].ToString();
+                            displayModel.Location = dr["LOC"].ToString();
+
+                            //display retrieved record
+                            Console.WriteLine("{0},{1},{2},{3},{4},{5},{6}", displayModel.EmployeeId, displayModel.EmployeeName, displayModel.JobDiscription,
+                                displayModel.Email, displayModel.departmentName, displayModel.HireDate, displayModel.Location);
+                            Console.WriteLine("\n");
+                            EmployeeCount++;
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("No data found.");
+                    }
+                    //close data reader
+                    dr.Close();
+
+                    this.connection.Close();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                this.connection.Close();
+            }
+            return EmployeeCount;
+        }
+
         /// <summary>
         /// update employee record.
         /// </summary>

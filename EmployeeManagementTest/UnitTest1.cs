@@ -1,6 +1,8 @@
 using EmployeeManagement;
 using EmployeeManagement.Model.SalaryModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Globalization;
 
 namespace EmployeeManagementTest
 {
@@ -25,6 +27,29 @@ namespace EmployeeManagementTest
 
             //Assert
             Assert.AreEqual(updateModel.EmployeeSalary, EmpSalary);
+        }
+
+
+        [TestMethod]
+        public void GivenInitialAndEnddate_AbleToReturnEmployeeDetails()
+        {
+            //Arrange
+            Employee employee = new Employee();
+            DateTime InitialDate = FormateDateTime("2019-01-30");
+            DateTime EndDate = FormateDateTime("2019-02-05");
+
+            //Act
+            int EmployeeCount = employee.GetAllEmployeeAsPerDate(InitialDate, EndDate);
+
+            //Assert
+            Assert.AreEqual(4, EmployeeCount);
+        }
+
+        public static DateTime FormateDateTime(string date)
+        {
+            CultureInfo culture = new CultureInfo("en-US");
+            DateTime result = DateTime.ParseExact(date, "yyyy-MM-dd", culture, DateTimeStyles.None);
+            return result;
         }
     }
 }
