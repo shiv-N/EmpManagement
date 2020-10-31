@@ -101,6 +101,54 @@ namespace EmployeeManagement
             }
         }
 
+        public double DisplayAverageSalaryDetail()
+        {
+            double AverageSalary = 0;
+            SqlConnection SalaryConnection = ConnectionSetup();
+            try
+            {
+                using (SalaryConnection)
+                {
+                    //define the SqlCommand object
+                    SqlCommand cmd = new SqlCommand("spGetAvgSalary", SalaryConnection);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    SalaryConnection.Open();
+
+                    SqlDataReader dr = cmd.ExecuteReader();
+
+                    //check if there are records
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            AverageSalary = Convert.ToDouble(dr["AvgSalary"]);
+
+                            //display retrieved record
+                            Console.WriteLine("Average salary = {0}",AverageSalary);
+                            Console.WriteLine("\n");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("No data found.");
+                    }
+                    //close data reader
+                    dr.Close();
+
+                    SalaryConnection.Close();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                SalaryConnection.Close();
+            }
+            return AverageSalary;
+        }
+
         public int UpdateEmployeeSalary(SalaryUpdateModel model)
         {
             SqlConnection SalaryConnection = ConnectionSetup();

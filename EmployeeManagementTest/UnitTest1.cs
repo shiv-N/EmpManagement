@@ -51,5 +51,17 @@ namespace EmployeeManagementTest
             DateTime result = DateTime.ParseExact(date, "yyyy-MM-dd", culture, DateTimeStyles.None);
             return result;
         }
+
+        [TestMethod]
+        public void Return_AverageOfEmployeeSalary()
+        {
+            Salary salary = new Salary();
+
+            //Act
+            double AvergeSalary = salary.DisplayAverageSalaryDetail();
+
+            //Assert
+            Assert.AreEqual(1762.50, AvergeSalary);
+        }
     }
 }
