@@ -63,5 +63,17 @@ namespace EmployeeManagementTest
             //Assert
             Assert.AreEqual(1762.50, AvergeSalary);
         }
+
+        [TestMethod]
+        public void Return_MinimumEmployeeSalary()
+        {
+            Salary salary = new Salary();
+
+            //Act
+            int minimumSalary = salary.DisplayMinimumSalaryDetail();
+
+            //Assert
+            Assert.AreEqual(1300, minimumSalary);
+        }
     }
 }

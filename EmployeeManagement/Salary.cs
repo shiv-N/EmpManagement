@@ -149,6 +149,54 @@ namespace EmployeeManagement
             return AverageSalary;
         }
 
+        public int DisplayMinimumSalaryDetail()
+        {
+            int minimumSalary = 0;
+            SqlConnection SalaryConnection = ConnectionSetup();
+            try
+            {
+                using (SalaryConnection)
+                {
+                    //define the SqlCommand object
+                    SqlCommand cmd = new SqlCommand("spGetMINSalary", SalaryConnection);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    SalaryConnection.Open();
+
+                    SqlDataReader dr = cmd.ExecuteReader();
+
+                    //check if there are records
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            minimumSalary = Convert.ToInt32(dr["MinimumSalary"]);
+
+                            //display retrieved record
+                            Console.WriteLine("Minimum salary = {0}", minimumSalary);
+                            Console.WriteLine("\n");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("No data found.");
+                    }
+                    //close data reader
+                    dr.Close();
+
+                    SalaryConnection.Close();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                SalaryConnection.Close();
+            }
+            return minimumSalary;
+        }
+
         public int UpdateEmployeeSalary(SalaryUpdateModel model)
         {
             SqlConnection SalaryConnection = ConnectionSetup();
