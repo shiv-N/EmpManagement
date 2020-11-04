@@ -1,7 +1,9 @@
 ﻿using EmployeeManagement.Model;
 using EmployeeManagement.Model.SalaryModel;
 using System;
+using System.Diagnostics;
 using System.Globalization;
+using System.Threading;
 
 namespace EmployeeManagement
 {
@@ -11,16 +13,22 @@ namespace EmployeeManagement
         {   
             //// Add emp
             //Employee employee = new Employee();
-            //EmployeeModel employeeOne = new EmployeeModel()
-            //{
-            //    EmployeeName = "Ganesh Nami",
-            //    JobDiscription = "CLERK",
-            //    Email = "ganesh@gmail.com",
-            //    BirthDate = FormateDateTime("1994-12-02"),
-            //    HireDate = FormateDateTime("2019-05-02"),
-            //    DepartmentId = 2
-            //};
-            //employee.AddEmployee(employeeOne);
+            EmployeeModel employeeOne = new EmployeeModel()
+            {
+                EmployeeName = "Manubwei",
+                JobDiscription = "CLERK",
+                Email = "mawexxbi@gmail.com",
+                BirthDate = FormateDateTime("1994-12-02"),
+                HireDate = FormateDateTime("2019-05-02"),
+                DepartmentId = 2
+            };
+            //bool result = employee.AddEmployee(employeeOne);
+            //Console.WriteLine(result);
+            Stopwatch stopwatch = new Stopwatch();
+            Employee employee = new Employee(employeeOne);
+            //employee.AddEmployee();
+            employee.AddEmployeeDetailsUsingThreads(employeeOne);
+            //Thread thread = new Thread(new ThreadStart(employee.AddEmployee(employeeOne))
 
 
             //bool result = employee.updateEmployee(employeeOne,14);

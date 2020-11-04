@@ -2,6 +2,7 @@ using EmployeeManagement;
 using EmployeeManagement.Model;
 using EmployeeManagement.Model.SalaryModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NHamcrest.Core;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -86,5 +87,7 @@ namespace EmployeeManagementTest
             //Assert
             Assert.AreEqual(1300, minimumSalary);
         }
+
+        
     }
 }

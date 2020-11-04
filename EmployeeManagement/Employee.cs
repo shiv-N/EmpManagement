@@ -3,24 +3,46 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Text;
+using System.Threading;
 
 namespace EmployeeManagement
 {
     public class Employee
     {
+        public Employee(EmployeeModel model)
+        {
+            this.model = model;
+        }
+        public Employee()
+        {
+
+        }
         static string connectionString = "Data Source=DESKTOP-G47OV5I\\SQLSERVER;Initial Catalog=CompanyDB;Integrated Security=True";
         SqlConnection connection = new SqlConnection(connectionString);
+        private EmployeeModel model;
+
+        public void AddEmployeeDetailsUsingThreads(EmployeeModel model)
+        {
+            Stopwatch stopwatch = new Stopwatch();
+            Employee newEmployee = new Employee(model);
+            Thread thr = new Thread(new ThreadStart(newEmployee.AddEmployee));
+            thr.Start();
+        }
 
         /// <summary>
         ///  Add new Employee record to DB.
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public bool AddEmployee(EmployeeModel model)
+        public void AddEmployee()
         {
             try
             {
+
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
                 using (this.connection)
                 {
                     SqlCommand command = new SqlCommand("spRegisterEmp", this.connection);
@@ -36,9 +58,15 @@ namespace EmployeeManagement
                     this.connection.Close();
                     if (result > 0)
                     {
-                        return true;
+                        stopwatch.Stop();
+                        Console.WriteLine(stopwatch.Elapsed);
+                        Console.WriteLine(true);
                     }
-                    return false;
+                    else
+                    {
+                        Console.WriteLine(false); 
+                    }
+                    
                 }
             }
             catch (Exception e)
